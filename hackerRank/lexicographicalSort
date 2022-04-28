@@ -1,0 +1,96 @@
+Lexicographical order is often known as alphabetical order when dealing with strings. A string is greater than another string if it comes later in a lexicographically sorted list.
+
+Given a word, create a new word by swapping some or all of its characters. This new word must meet two criteria:
+It must be greater than the original word
+It must be the smallest word that meets the first condition
+Example
+The next largest word is .
+
+Complete the function biggerIsGreater below to create and return the new string meeting the criteria. If it is not possible, return no answer.
+
+string w: a word
+Returns
+- string: the smallest lexicographically higher string possible or no answer
+
+Sample Input 0
+
+5
+ab
+bb
+hefg
+dhck
+dkhc
+Sample Output 0
+
+ba
+no answer
+hegf
+dhkc
+hcdk
+
+6
+lmno
+dcba
+dcbb
+abdc
+abcd
+fedcbabcd
+Sample Output 1
+
+lmon
+no answer
+no answer
+acbd
+abdc
+fedcbabdc
+
+====================================================================================================================================
+Idea: 
+Lexicological sorting is explained here http://www.nayuki.io/page/next-lexicographical-permutation-algorithm
+Algorithm:
+    * find the largest non increasing substring 
+    * find the pivot to the left of this substring
+    * swap the pivot to the smallest element greater than the pivot in the substring
+    * reverese the substring to get the next permutation in the string
+
+Code: 
+
+   public static String biggerIsGreater(String w) {
+    // Write your code here
+    // Algorithm:
+    // * find the largest non increasing substring 
+    // * find the pivot to the left of this substring
+    // * swap the pivot to the smallest element greater than the pivot in the substring
+    // * reverese the substring to get the next permutation in the string
+    
+    char[] chars = w.toCharArray();
+        int i= chars.length-1;
+        while(i>0){
+            if(chars[i-1]>=chars[i]){
+                i--;
+            }else{
+                int j=i;
+                while(j<chars.length&&chars[j]>chars[i-1]){
+                    j++;
+                }
+                char temp = chars[i-1];
+                chars[i-1]=chars[j-1];
+                chars[j-1]=temp;
+                
+                char[] newChar = new char[chars.length];
+                for(int k=0;k<i;k++){
+                    newChar[k]=chars[k];
+                }
+                int end = chars.length-1;
+                for(int k=i;k<chars.length;k++){
+                    newChar[k]=chars[end--];
+                }
+                return new String(newChar);
+            }
+        }
+        return "no answer";
+    
+
+    }
+
+}
