@@ -1,0 +1,153 @@
+
+You will be given a square chess board with one queen and a number of obstacles placed on it. Determine how many squares the queen can attack.
+
+A queen is standing on an nxn chessboard. The chess board's rows are numbered from 1 to n, going from bottom to top. Its columns are numbered from 1 to n, going from left to right. Each square is referenced by a tuple,(r,c) describing the row, r, and column, c, where the square is located.
+
+The queen is standing at position (r_q,c_q). In a single move, she can attack any square in any of the eight directions (left, right, up, down, and the four diagonals). In the diagram below, the green circles denote all the cells the queen can attack from (4,4):
+
+
+https://www.hackerrank.com/challenges/queens-attack-2/problem?isFullScreen=false
+
+Intuition:
+    * an isObstacle function that looks up whether the current position is an obstacle or not (could be where optimisation is required)
+    * four functions for going in different direction diagonals, horizontal and vertical
+    * Go in each direction and check if the current box is an obstacle, increment counter if it's not
+    * if the current box is an obstacle break the loop no need to go further in that direction
+    * add up all the counters to get total number of visitable squares
+
+
+/* My solution passes 15/19 testcases so optimisation is required will have to revisit again sometime */
+class Result {
+
+    /*
+     * Complete the 'queensAttack' function below.
+     *
+     * The function is expected to return an INTEGER.
+     * The function accepts following parameters:
+     *  1. INTEGER n
+     *  2. INTEGER k
+     *  3. INTEGER r_q
+     *  4. INTEGER c_q
+     *  5. 2D_INTEGER_ARRAY obstacles
+     */
+
+    public static int queensAttack(int n, int k, int r_q, int c_q, List<List<Integer>> obstacles) {
+    // Write your code here
+    int ver = getVer(n, r_q, c_q, obstacles);
+    int hor = getHor(n, r_q, c_q, obstacles);
+    int dia1 = getDia1(n, r_q, c_q, obstacles);
+    int dia2 = getDia2(n, r_q, c_q, obstacles);
+    return ver + hor + dia1 + dia2;
+    }
+    
+    public static int getVer(int n, int r_q, int c_q, List<List<Integer>> obstacles){
+        int top = 0;
+        int botton = 0;
+        int i = r_q - 1;
+        int j = c_q;
+        while(i>=1){
+            if(!isObstacle(i--, j, obstacles)){
+                top++;
+            } else {
+                break;
+            }
+        }
+        i = r_q + 1;
+        j = c_q;
+        while(i<=n){
+            if(!isObstacle(i++, j, obstacles)){
+                botton++;
+            } else {
+                break;
+            }
+        }
+        return top + botton;
+    }
+    
+    public static int getHor(int n, int r_q, int c_q, List<List<Integer>> obstacles){
+        int top = 0;
+        int botton = 0;
+        int i = r_q;
+        int j = c_q - 1;
+        while(j>=1){
+            if(!isObstacle(i, j--, obstacles)){
+                top++;
+            } else {
+                break;
+            }
+        }
+        i = r_q;
+        j = c_q + 1;
+        while(j<=n){
+            if(!isObstacle(i, j++, obstacles)){
+                botton++;
+            } else {
+                break;
+            }
+        }
+        return top + botton;
+        
+    }
+    
+    public static int getDia1(int n,  int r_q, int c_q, List<List<Integer>> obstacles){
+        int top = 0;
+        int botton = 0;
+        int i = r_q - 1;
+        int j = c_q - 1;
+        while(i>=1 && j>=1){
+            if(!isObstacle(i--, j--, obstacles)){
+                top++;
+            } else {
+                break;
+            }
+        }
+        i = r_q + 1;
+        j = c_q + 1;
+        while(i<=n && j<=n){
+            if(!isObstacle(i++, j++, obstacles)){
+                botton++;
+            } else {
+                break;
+            }
+        }
+        return top + botton;
+
+    }
+    
+    public static int getDia2(int n, int r_q, int c_q, List<List<Integer>> obstacles){
+        int top = 0;
+        int botton = 0;
+        int i = r_q - 1;
+        int j = c_q + 1;
+        while(i>=1 && j<=n){
+            if(!isObstacle(i--, j++, obstacles)){
+                top++;
+            } else {
+                break;
+            }
+        }
+        i = r_q + 1;
+        j = c_q - 1;
+        while(i<=n && j>=1){
+            if(!isObstacle(i++, j--, obstacles)){
+                botton++;
+            } else {
+                break;
+            }
+        }
+        return top + botton;
+    }
+    
+
+public static boolean isObstacle(int r, int c, List<List<Integer>> obstacles)
+{
+    for(int i = 0; i< obstacles.size();i++)
+    {
+        if(r == obstacles.get(i).get(0) && c == obstacles.get(i).get(1))
+            return true;
+    }
+
+    return false;
+}
+
+}
