@@ -1,0 +1,61 @@
+Flatland is a country with a number of cities, 
+some of which have space stations. 
+Cities are numbered consecutively and each has a road of 1km length connecting it to the next city. 
+It is not a circular route, so the first city doesn't connect with the last city. 
+Determine the maximum distance from any city to its nearest space station.
+
+Complete the flatlandSpaceStations function in the editor below.
+flatlandSpaceStations has the following parameter(s):
+* int n: the number of cities
+* int c[m]: the indices of cities with a space station
+Returns
+* int: the maximum distance any city is from a space station
+
+
+https://www.hackerrank.com/challenges/flatland-space-stations/problem?isFullScreen=true
+
+Intuition
+/* 
+    * we need to find the max distance from every cities, it makes sense to know the nearest distance to each space station from the nearest city
+    * Build an array of minimum distance from city to space station
+    * Find the max of this array to fetch the required answer
+*/
+
+ static int flatlandSpaceStations(int n, int[] c) {
+        int[] dist = new int[n];
+        int i = 0;
+        int size = c.length;
+        dist[c[0]] = 0;
+        for(int j=0;j<n;j++){
+            dist[j] = Math.abs(j-c[0]);
+        }
+        i = 1;
+        while(i<size){
+            dist = fillLeft(c[i],dist);
+            dist = fillRight(c[i],dist);
+            i++;
+        }
+        return findMax(dist);
+    }
+    
+    public static int[] fillLeft(int i, int[] arr){
+        for(int j=i;j>=0;j--){
+            arr[j] = Math.min(Math.abs(j-i), arr[j]) ;
+        }
+        return arr;
+    }
+    
+    public static int[] fillRight(int i, int[] arr){
+        for(int j=i;j<arr.length;j++){
+            arr[j] = Math.min(Math.abs(j-i), arr[j]) ;
+        }
+        return arr;
+    }
+    
+    public static int findMax(int[] arr){
+        int max = -1;
+        for(int i=0;i<arr.length;i++){
+            max = Math.max(max, arr[i]);
+        }
+        return max;
+    }
