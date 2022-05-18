@@ -1,0 +1,43 @@
+The factorial of the integer n, written n!, is defined as:
+    n x (n-1) x (n-2) x ..... 2 X 1
+Calculate and print the factorial of a given integer.
+
+For example, if n=30, we calculate 30!.
+
+Function Description
+
+Complete the extraLongFactorials function in the editor below. It should print the result and return.
+
+extraLongFactorials has the following parameter(s):
+
+n: an integer
+Note: Factorials of  can't be stored even in a  long long variable. Big integers must be used for such calculations. Languages like Java, Python, Ruby etc. can handle big integers, but we need to write additional code in C/C++ to handle huge values.
+
+We recommend solving this challenge using BigIntegers.
+
+https://www.hackerrank.com/challenges/extra-long-factorials/problem?isFullScreen=true
+
+
+class Result {
+
+    /*
+     * Complete the 'extraLongFactorials' function below.
+     *
+     * The function accepts INTEGER n as parameter.
+     */
+
+    public static void extraLongFactorials(int n) {
+    // Write your code here
+        BigInteger num = factorial(n);
+        System.out.println(num);
+    }
+    
+    public static BigInteger factorial(int n){
+        BigInteger num = BigInteger.ONE;
+        for(int i=n; i>=1; i--){
+            num = num.multiply(BigInteger.valueOf(i));
+        }
+        return num;
+    }
+
+}
