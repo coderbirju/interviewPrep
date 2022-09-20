@@ -17,7 +17,7 @@ class Solution {
     /*
     * Sort based solution
     - do inorder traversal and see if the array is sorted, if not then it's not a valid bst
-    - use a global sinle variable prev, that holds the previous visited node value.. 
+    - use a global single variable prev, that holds the previous visited node value.. 
     - if current val < prev then invalid BST
     */
     long prev = Long.MIN_VALUE;
